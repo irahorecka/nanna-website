@@ -8,5 +8,15 @@ from bikeStore import app
 @app.route("/")
 @app.route("/home")
 def home():
-    title = "Horecka Bikes"
+    title = "Home"
     return render_template("home.html", title=title)
+
+@app.route("/bikes")
+def bikes():
+    title = "Bikes"
+    return render_template("bikes.html", title=title)
+
+@app.route("/contact")
+def contact():
+    title = "Contact"
+    return render_template("contact.html", title=title)
