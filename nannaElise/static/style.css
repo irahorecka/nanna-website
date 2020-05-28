@@ -106,6 +106,13 @@ a.article-title:hover {
     font-size: 2.5rem;
 }
 
+/* end Corey Schafer */
+
+.invalid-feedback {
+    color: red;
+}
+
+
 /* fugaz-one-regular - latin */
 @font-face {
     font-family: 'Fugaz One';

@@ -4,6 +4,18 @@
   <div class="row content">
     <div class="col-sm-2 text-left"></div>
     <div class="col-sm-8 text-left"> 
+        <!-- add flash message handling below to follow alignment property -->
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">
+              {{ message }}
+              </div>
+          {% endfor %}
+          {% endif %}
+      {% endwith %}
+
       <h1>Welcome</h1>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
       <hr>
