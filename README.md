@@ -1,2 +1,2 @@
-# bikeStoreWebsite
-A website to host my local bike store.
+# nannaWebsite
+A website to host Nanna's contents.
