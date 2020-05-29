@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link class="img-fluid rounded-circle float-left mr-2" rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
     {% if title %}
@@ -34,16 +34,21 @@
       </button>
       <a class="navbar-brand" href="#">Logo</a>
     </div>
-    <div class="collapse navbar-collapse" id="navmenu">
-      <ul class="nav navbar-nav" id="profileTabs">
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
         <li class="list"><a href="{{ url_for('home') }}" class="navbar-font">Home</a></li>
         <li class="list"><a href="{{ url_for('videos') }}" class="navbar-font">Videos</a></li>
         <li class="list"><a href="{{ url_for('recipes') }}" class="navbar-font">Recipes</a></li>
         <li class="list"><a href="{{ url_for('blog') }}" class="navbar-font">Blog</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{ url_for('login') }}" class="navbar-font">Login</a></li>
-        <li><a href="{{ url_for('register') }}" class="navbar-font">Register</a></li>
+        {% if current_user.is_authenticated %}
+          <li><a href="{{ url_for('account') }}" class="navbar-font">Account</a></li>
+          <li><a href="{{ url_for('logout') }}" class="navbar-font">Logout</a></li>
+        {% else %}
+          <li><a href="{{ url_for('login') }}" class="navbar-font">Login</a></li>
+          <li><a href="{{ url_for('register') }}" class="navbar-font">Register</a></li>
+        {% endif %}
         </ul>
     </div>
   </div>
