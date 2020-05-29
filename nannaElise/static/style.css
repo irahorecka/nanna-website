@@ -112,6 +112,10 @@ a.article-title:hover {
     color: red;
 }
 
+.profile-img {
+    border-radius: 50%;
+}
+
 
 /* fugaz-one-regular - latin */
 @font-face {
