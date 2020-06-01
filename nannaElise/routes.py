@@ -1,32 +1,11 @@
 import os
 import secrets
 from PIL import Image
-from flask import render_template, request, url_for, flash, redirect, request
+from flask import render_template, request, url_for, flash, redirect, request, abort
 from nannaElise import app, db, bcrypt
-from nannaElise.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from nannaElise.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from nannaElise.models import User, Post
 from flask_login import login_user, logout_user, current_user, login_required
-
-posts = [
-    {
-        'author': '奈菜',
-        'title': 'ビーガンて何？',
-        'content': '英語圏のみならず、アルファベットを使用している国々において、なんらかの業務やデザインでダミー文を表示しておくときに使われる伝統的な文章があります。Lorem ipsumと呼ばれているその文は、現在では使われなくなった古いラテン語の文献をもとに、現代の英語と文字の出現頻度を合わせて生み出された無意味な文章です。',
-        'date_posted': 'April 20, 2018'
-    },
-    {
-        'author': '田村慎一',
-        'title': 'ビーガン大好き！',
-        'content': 'コンテンツの内容ではなく、純粋にデザインを評価する場合にこれらの文章は役にたちます。人間は文章を読んでその意味を理解してしまうと、その他の部分への評価に影響を与えてしまうと言われていることがその理由です。',
-        'date_posted': 'April 21, 2018'
-    },
-    {
-        'author': '相良',
-        'title': '今日の気分',
-        'content': 'では、日本語の場合はどうでしょう。前述のラテン文字とは違い、日本語の表記体系は非常に複雑です。ひらがな・カタカナ・漢字・数字・アルファベットを織り交ぜて記述されるため、Lorem ipsumでは全く代用できません。',
-        'date_posted': 'April 21, 2018'
-    }
-]
 
 
 @app.route("/")
@@ -56,6 +35,7 @@ def recipes():
 @app.route("/blog")
 def blog():
     title = "Blog"
+    posts = Post.query.all()
     return render_template("blog.html", title=title, posts=posts)
 
 
@@ -133,3 +113,53 @@ def account():
 
     image_file = url_for('static', filename='profile_img/' + current_user.image_file)
     return render_template('account.html', title='Account', image_file=image_file, form=form)
+
+
+@app.route('/post/new', methods=['GET', 'POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('blog'))
+    return render_template('create_post.html', title="New Post", form=form, legend='New Post')
+
+
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title=post.title, post=post)
+
+
+@app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash('Your post has been updated!', 'success')
+        return redirect(url_for('post', post_id=post.id))
+    elif request.method == 'GET':    
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template('create_post.html', title='Update Post', form=form, legend='Update Post')
+
+
+@app.route("/post/<int:post_id>/delete", methods=['POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted!', 'success')
+    return redirect(url_for('home'))
