@@ -123,6 +123,9 @@ a.article-title:hover {
     border-radius: 50%;
 }
 
+.mb-md {
+    margin-bottom: 20px;
+}
 
 /* fugaz-one-regular - latin */
 @font-face {

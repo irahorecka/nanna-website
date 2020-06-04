@@ -19,7 +19,7 @@
 
 <div class="jumbotron">
   <div class="container text-center">
-    <a href="{{ url_for('home') }}" class="title"><h1 class="title">Nanna Elise</h1></a>      
+    <a href="{{ url_for('main.home') }}" class="title"><h1 class="title">Nanna Elise</h1></a>      
     <p class="title">.</p>
   </div>
 </div>
@@ -36,19 +36,19 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="list"><a href="{{ url_for('home') }}" class="navbar-font">Home</a></li>
-        <li class="list"><a href="{{ url_for('videos') }}" class="navbar-font">Videos</a></li>
-        <li class="list"><a href="{{ url_for('recipes') }}" class="navbar-font">Recipes</a></li>
-        <li class="list"><a href="{{ url_for('blog') }}" class="navbar-font">Blog</a></li>
+        <li class="list"><a href="{{ url_for('main.home') }}" class="navbar-font">Home</a></li>
+        <li class="list"><a href="{{ url_for('main.videos') }}" class="navbar-font">Videos</a></li>
+        <li class="list"><a href="{{ url_for('main.recipes') }}" class="navbar-font">Recipes</a></li>
+        <li class="list"><a href="{{ url_for('main.blog') }}" class="navbar-font">Blog</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if current_user.is_authenticated %}
-          <li><a href="{{ url_for('new_post') }}" class="navbar-font">New Post</a></li>
-          <li><a href="{{ url_for('account') }}" class="navbar-font">Account</a></li>
-          <li><a href="{{ url_for('logout') }}" class="navbar-font">Logout</a></li>
+          <li><a href="{{ url_for('posts.new_post') }}" class="navbar-font">New Post</a></li>
+          <li><a href="{{ url_for('users.account') }}" class="navbar-font">Account</a></li>
+          <li><a href="{{ url_for('users.logout') }}" class="navbar-font">Logout</a></li>
         {% else %}
-          <li><a href="{{ url_for('login') }}" class="navbar-font">Login</a></li>
-          <li><a href="{{ url_for('register') }}" class="navbar-font">Register</a></li>
+          <li><a href="{{ url_for('users.login') }}" class="navbar-font">Login</a></li>
+          <li><a href="{{ url_for('users.register') }}" class="navbar-font">Register</a></li>
         {% endif %}
         </ul>
     </div>
