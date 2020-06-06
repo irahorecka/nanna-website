@@ -1,4 +1,7 @@
-from flask import render_template, request, redirect, url_for, Blueprint
+import json
+from pathlib import Path
+from flask import render_template, request, redirect, url_for, abort, Blueprint
+from flask_paginate import Pagination
 from nannaElise.models import Post
 
 main = Blueprint('main', __name__)
@@ -19,7 +22,13 @@ def home():
 @main.route("/videos")
 def videos():
     title = "Videos"
-    return render_template("videos.html", title=title)
+    video_json_path = Path(__file__).parent / f"../static/videos.json"
+    with open(video_json_path) as readfile:
+        video_json = json.load(readfile)
+        video_json['videos'] = video_json['videos'][:12]  # load only 12 videos for now... iframe lag
+    if not video_json:
+        abort(404)
+    return render_template("videos.html", title=title, video_json=video_json)
 
 
 @main.route("/recipes")
