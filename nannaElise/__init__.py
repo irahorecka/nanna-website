@@ -8,8 +8,8 @@ from nannaElise.config import Config
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.login_view = 'users.login'
-login_manager.login_message_category = 'info'
+login_manager.login_view = "users.login"
+login_manager.login_message_category = "info"
 mail = Mail()
 
 
@@ -26,6 +26,7 @@ def create_app(config_class=Config):
     from nannaElise.posts.routes import posts
     from nannaElise.main.routes import main
     from nannaElise.errors.handlers import errors
+
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)
